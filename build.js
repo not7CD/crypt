@@ -9,9 +9,9 @@ Metalsmith(__dirname)
     generator: 'Metalsmith',
     url: 'http://www.metalsmith.io/'
   })
-  .source('./content')
+  .source('./source')
   .destination('./public')
-  .clean(false)
+  .clean(true)
   .use(collections({
     pages: {
       pattern: '*/*.njk'
@@ -20,7 +20,7 @@ Metalsmith(__dirname)
   .use(inPlace({
     // pattern: '*.njk',
     engineOptions: {
-      path: __dirname + '/content',
+      path: __dirname + '/source',
       root: __dirname
     }
   }))
