@@ -1,0 +1,9 @@
+---
+title: Home
+---
+{% extends "layouts/base.html" %}
+{% block content -%}
+{% for elt in pages %}
+    <a href="/{{ elt.path }}">{{ elt.title }}</a>
+{% endfor %}
+{%- endblock %}
