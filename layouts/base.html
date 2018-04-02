@@ -2,29 +2,27 @@
 <html>
 <head>
     <title>{{ site.title }} – {{ title }}</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style type="text/css">
-        textarea {
-            font-family: monospace; 
-        }
-    </style>
+    <link rel="stylesheet" href="/css/app.css" crossorigin="anonymous">
 </head>
 <body>
-    {% block scripts -%}
-    {%- endblock %}
     <div class="container">
     {% block header -%}
     <h1>Cryptographic Crypt</h1>
     {%- endblock %}
+    <noscript>
+        You need to enable JavaScript to use this site
+    </noscript>
     {% block content -%}
     {%- endblock %}
     {% block footer -%}
     <div>
         <p>
-            Last edit: {{ stats.mtime }}
+            Last edit: {{ stats.mtime.getUTCFullYear() }}-{{ stats.mtime.getUTCMonth() }}-{{ stats.mtime.getUTCDate() }}
         </p>
     </div>
     {%- endblock %}
     </div>
+    {% block scripts -%}
+    {%- endblock %}
 </body>
 </html>

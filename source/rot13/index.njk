@@ -1,5 +1,6 @@
 ---
 title: ROT13
+collection: pages
 permalink: rot13
 ---
 {% extends "layouts/page.html" %}
@@ -34,6 +35,8 @@ http://www.practicalcryptography.com/ciphers/rot13-cipher/
         plaintext = document.getElementById("plaintext").value
         document.getElementById("ciphertext").value = rot13(plaintext)
     }
+
+    document.getElementById("encrypt").onclick = encryptBtn
 </script>
 {%- endblock %}
 

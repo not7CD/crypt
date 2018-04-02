@@ -3,6 +3,7 @@ const inPlace = require('metalsmith-in-place')
 const collections = require('metalsmith-collections')
 const permalinks = require('metalsmith-permalinks')
 const debug = require('metalsmith-debug')
+const sass = require('metalsmith-sass')
 
 Metalsmith(__dirname)
   .metadata({
@@ -17,9 +18,13 @@ Metalsmith(__dirname)
   .source('./source')
   .destination('./public')
   .clean(true)
+  .use(sass({
+    outputDir: 'css/'
+  }))
   .use(collections({
     pages: {
-      pattern: '*/*.njk'
+      // pattern: '*/*.njk'
+      sortBy: 'title'
     }
   }))
   .use(inPlace({
