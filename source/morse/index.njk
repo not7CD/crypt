@@ -35,6 +35,8 @@ permalink: morse
         const inputtext = document.getElementById("inputtext").value
         document.getElementById("outputtext").value = encryptMorse(inputtext)
     }
+    //wtf
+    document.getElementById("outputtext").placeholder = encryptMorse("{{ input.placeholder }}")
 
     document.getElementById("decrypt").onclick = function () {
         const inputtext = document.getElementById("inputtext").value

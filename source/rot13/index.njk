@@ -44,6 +44,7 @@ permalink: rot13
         inputtext = document.getElementById("inputtext").value
         document.getElementById("outputtext").value = rot13(inputtext)
     }
+    document.getElementById("outputtext").placeholder = rot13("{{ input.placeholder }}")
 
     document.getElementById("encrypt").onclick = encryptBtn
 

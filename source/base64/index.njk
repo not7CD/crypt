@@ -41,6 +41,7 @@ permalink: base64
         const inputtext = document.getElementById("inputtext").value
         document.getElementById("outputtext").value = btoa(inputtext)
     }
+    document.getElementById("outputtext").placeholder = btoa("{{ input.placeholder }}")
 
     document.getElementById("decrypt").onclick = function () {
         const inputtext = document.getElementById("inputtext").value
