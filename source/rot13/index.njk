@@ -46,6 +46,30 @@ permalink: rot13
     }
 
     document.getElementById("encrypt").onclick = encryptBtn
+
+    document.getElementById("switch").onclick = function () {
+        const tmp = document.getElementById("inputtext").value
+        document.getElementById("inputtext").value = document.getElementById("outputtext").value
+        document.getElementById("outputtext").value = tmp    
+    }
+
+
+    document.getElementById("live").onchange = function () {
+        if (this.checked) {
+            document.getElementById("inputtext").oninput = document.getElementById("encrypt").onclick
+        } else {
+            document.getElementById("inputtext").oninput = null
+        } 
+    }
+    document.getElementById("live").onchange()
+
+    document.getElementById("inputtext")
+        .addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if ((event.keyCode === 13) && event.ctrlKey) {
+            document.getElementById("encrypt").click();
+        }
+    })
 </script>
 {%- endblock %}
 
