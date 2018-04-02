@@ -19,29 +19,26 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
-var base_colour_array = ['#FF0000', '#FFB300', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#7700D8', '#FF00FF', '#000000', '#000000']
+var defaultColorArray = ['#007bff', '#6610f2', '#6f42c1', '#e83e8c', '#dc3545', '#fd7e14', '#ffc107', '#28a745', '#20c997', '#17a2b8']
 var black_array = ['black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black', 'black']
+var svgId = 'outputsvg'
 
-function set_table_colour () {
-  for (var i = 0; i < 9; i += 1) {
-    document.getElementById('table1_cell_colour_' + i).value = base_colour_array[i]
+var colorArray = defaultColorArray
+
+function set_table_color () {
+  for (var i = 0; i < 8; i++) {
+    document.getElementById('table1_cell_color_' + i).value = colorArray[i]
   }
 }
 
-function reverse_colours () {
-  var tmp
-  for (var i = 0; i < 4; i += 1) {
-    tmp = base_colour_array[i]
-    base_colour_array[i] = base_colour_array[7 - i]
-    base_colour_array[7 - i] = tmp
-  }
-  set_table_colour()
+function reverse_colors () {
+  colorArray = colorArray.reverse()
+  set_table_color()
 }
 
-function set_colour (colour_id) {
-  var index = parseInt(colour_id.id.slice(-1))
-  base_colour_array[index] = colour_id.value
+function set_color (color_id) {
+  var index = parseInt(color_id.id.slice(-1)) // ???
+  colorArray[index] = color_id.value
   return true
 }
 
@@ -69,8 +66,8 @@ function describeSVGArc (center_x, center_y, inner_radius, outer_radius, startAn
   return d
 }
 
-function drawCircleArc (rp, inner_radius, outer_radius, start_angle, end_angle, colour) {
-  var svg_ = document.getElementById('thesvg')
+function drawCircleArc (rp, inner_radius, outer_radius, start_angle, end_angle, color) {
+  var svg_ = document.getElementById(svgId)
   var newPath = document.createElementNS('http://www.w3.org/2000/svg', 'path')
 
   if (rp.counter_clockwise) {
@@ -79,59 +76,59 @@ function drawCircleArc (rp, inner_radius, outer_radius, start_angle, end_angle, 
     end_angle = t
   }
   newPath.setAttribute('d', describeSVGArc(rp.center_x, rp.center_y, inner_radius, outer_radius, start_angle, end_angle)) // Set path's data
-  newPath.style.stroke = colour // Set stroke colour
-  newPath.style.fill = colour // Set fill colour
+  newPath.style.stroke = color // Set stroke color
+  newPath.style.fill = color // Set fill color
   newPath.style.strokeWidth = '0.25' // Set stroke width
 
   svg_.appendChild(newPath)
 }
 
-function drawCircleBit (rp, ring, sectors_in_ring, bit_index, colour) {
+function drawCircleBit (rp, ring, sectors_in_ring, bit_index, color) {
   var radius = rp.ring_width * ring
   var arc_angle = 360 / (rp.bytes_per_sector * sectors_in_ring * rp.bits_per_byte) // ring * ring_increment
   var start_angle = arc_angle * bit_index
-  drawCircleArc(rp, radius, radius + rp.ring_width, start_angle, start_angle + arc_angle, colour)
+  drawCircleArc(rp, radius, radius + rp.ring_width, start_angle, start_angle + arc_angle, color)
 }
 
-function drawRectBit (center_x, center_y, ring, rect_width, bit_index, colour) {
-  var svg_ = document.getElementById('thesvg')
+function drawRectBit (center_x, center_y, ring, rect_width, bit_index, color) {
+  var svg_ = document.getElementById(svgId)
   var radius = rect_width * ring
   var newRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
   newRect.setAttribute('x', center_x + rect_width / 1.6 * bit_index)
   newRect.setAttribute('y', center_y + radius)
   newRect.setAttribute('width', rect_width / 1.6)
   newRect.setAttribute('height', rect_width)
-  newRect.style.fill = colour // Set fill colour
-  newRect.style.stroke = 'black' // Set stroke colour
+  newRect.style.fill = color // Set fill color
+  newRect.style.stroke = 'black' // Set stroke color
   newRect.style.strokeWidth = '0.25' // Set stroke width
   svg_.appendChild(newRect)
 }
 
-function drawCircle (center_x, center_y, radius, stroke_width, colour) {
-  var svg_ = document.getElementById('thesvg')
+function drawCircle (center_x, center_y, radius, stroke_width, color) {
+  var svg_ = document.getElementById(svgId)
   var newCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
   newCircle.setAttribute('cx', center_x)
   newCircle.setAttribute('cy', center_y)
   newCircle.setAttribute('r', radius)
   if (stroke_width == 0) {
-    newCircle.style.fill = colour // Set fill colour
-    newCircle.style.stroke = colour // Set stroke colour
+    newCircle.style.fill = color // Set fill color
+    newCircle.style.stroke = color // Set stroke color
     newCircle.style.strokeWidth = '0.25' // Set stroke width
   } else {
-    newCircle.style.fill = 'none' // Set fill colour
-    newCircle.style.stroke = colour // Set stroke colour
+    newCircle.style.fill = 'none' // Set fill color
+    newCircle.style.stroke = color // Set stroke color
     newCircle.style.strokeWidth = stroke_width // Set stroke width
   }
   svg_.appendChild(newCircle)
 }
 
-function drawRing (center_x, center_y, outer_radius, stroke_width, colour) {
-  drawCircle(center_x, center_y, outer_radius, stroke_width, colour)
+function drawRing (center_x, center_y, outer_radius, stroke_width, color) {
+  drawCircle(center_x, center_y, outer_radius, stroke_width, color)
 }
 
-function drawDoubleCircle (center_x, center_y, ring_width, colour) {
-  drawCircle(center_x, center_y, ring_width / 2, 0, colour)
-  drawRing(center_x, center_y, ring_width * 0.7, ring_width * 0.15, colour)
+function drawDoubleCircle (center_x, center_y, ring_width, color) {
+  drawCircle(center_x, center_y, ring_width / 2, 0, color)
+  drawRing(center_x, center_y, ring_width * 0.7, ring_width * 0.15, color)
 }
 
 function encode_string_to_bits (the_string) {
@@ -173,9 +170,9 @@ function render_a_byte (the_byte, rp, ring, sectors_in_ring, sector_in_ring, byt
     if ((the_byte & mask) == mask) {
       parity ^= 1
       if (rp.unrolled) {
-        drawRectBit(0, 0, ring, rp.ring_width, bit_i, rp.colour_array[j])
+        drawRectBit(0, 0, ring, rp.ring_width, bit_i, rp.color_array[j])
       } else {
-        drawCircleBit(rp, ring, sectors_in_ring, bit_i, rp.colour_array[j])
+        drawCircleBit(rp, ring, sectors_in_ring, bit_i, rp.color_array[j])
       }
     } else if (rp.unrolled) {
       drawRectBit(0, 0, ring, rp.ring_width, bit_i, 'white')
@@ -190,9 +187,9 @@ function render_a_byte (the_byte, rp, ring, sectors_in_ring, sector_in_ring, byt
     bit_i = bit_index(sector_in_ring, rp.bytes_per_sector, byte_in_sector, rp.bits_per_byte, 8)
     if (parity == 1 && ring != null) {
       if (rp.unrolled) {
-        drawRectBit(0, 0, ring, rp.ring_width, bit_i, rp.colour_array[8])
+        drawRectBit(0, 0, ring, rp.ring_width, bit_i, rp.color_array[8])
       } else {
-        drawCircleBit(rp, ring, sectors_in_ring, bit_i, rp.colour_array[8])
+        drawCircleBit(rp, ring, sectors_in_ring, bit_i, rp.color_array[8])
       }
     } else if (rp.unrolled) {
       drawRectBit(0, 0, ring, rp.ring_width, bit_i, 'white')
@@ -264,13 +261,13 @@ function render_centre_byte (rp, the_byte) {
   for (var j = 0; j < 8; j++) {
     if ((the_byte & mask) == mask) {
       parity ^= 1
-      drawCircleArc(rp, 0, rp.ring_width, 360 / rp.bits_per_byte * j, 360 / rp.bits_per_byte * (j + 1), rp.colour_array[j])
+      drawCircleArc(rp, 0, rp.ring_width, 360 / rp.bits_per_byte * j, 360 / rp.bits_per_byte * (j + 1), rp.color_array[j])
     }
     if (lsb) the_byte >>>= 1
     else mask >>>= 1
   }
   if (parity == 1) {
-    drawCircleArc(rp, 0, rp.ring_width, 360 / rp.bits_per_byte * 8, 360, rp.colour_array[8])
+    drawCircleArc(rp, 0, rp.ring_width, 360 / rp.bits_per_byte * 8, 360, rp.color_array[8])
   }
 }
 
@@ -300,7 +297,7 @@ function draw_center (rp) {
 }
 
 function encode_text (the_form) {
-  var _svg = document.getElementById('thesvg')
+  var _svg = document.getElementById(svgId)
   while (_svg.lastChild) {
     _svg.removeChild(_svg.lastChild)
   }
@@ -308,8 +305,8 @@ function encode_text (the_form) {
   var ring_increment = parseInt(the_form.step_size.value)
 
   var ring_params = {
-    center_x: parseInt(the_form.center_x.value),
-    center_y: parseInt(the_form.center_y.value),
+    center_x: 0,
+    center_y: 0,
     start_ring: start_ring,
     bytes_per_sector: parseInt(the_form.bytes_per_sector.value),
     ring_increment: ring_increment,
@@ -323,17 +320,29 @@ function encode_text (the_form) {
     xor_value: the_form.xor.checked ? parseInt_local(the_form.xor_text.value) : 0,
     exponential: the_form.exponential.checked,
 
-    colour_array: the_form.colour.checked ? base_colour_array : black_array,
+    color_array: the_form.color.checked ? colorArray : black_array,
     unrolled: the_form.unroll.checked,
     bounding_circle: the_form.bounding_circle.checked && !the_form.unroll.checked
   }
 
+  var inputtext = the_form.inputtext.value
+  if (inputtext == '') {
+    inputtext = the_form.inputtext.placeholder
+  }
+  // console.log(inputtext)
+  var radius = 100 + inputtext.length * 5
+  var viewBox = [-radius, -radius, radius * 2, radius * 2]
+  if (ring_params.unrolled) {
+    viewBox = [0, 0, radius * 5, radius]
+  }
+  _svg.setAttribute('viewBox', viewBox.join(' '))
+
   draw_center(ring_params)
-  render_bytes(encode_string_to_bits(the_form.the_text.value), ring_params)
+  render_bytes(encode_string_to_bits(inputtext), ring_params)
 }
 
 function init () {
-  var the_form = document.getElementById('settings')
-  set_table_colour()
+  var the_form = document.getElementById('tool-form')
+  set_table_color()
   encode_text(the_form)
 }
