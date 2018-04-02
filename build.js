@@ -4,15 +4,16 @@ const collections = require('metalsmith-collections')
 const permalinks = require('metalsmith-permalinks')
 const debug = require('metalsmith-debug')
 const sass = require('metalsmith-sass')
+const tags = require('metalsmith-tags')
 
 Metalsmith(__dirname)
   .metadata({
     site: {
       title: 'Cryptographic Crypt'
     },
-    description: "It's about saying »Hello« to the World.",
+    description: 'For all your once-in-a-while cryptographic work.',
     generator: 'Metalsmith',
-    input: {placeholder: 'ATTACK AT DAWN', rows: 3}
+    input: {placeholder: 'ATTACK AT DAWN', rows: 2}
     // url: 'http://www.metalsmith.io/'
   })
   .source('./source')
@@ -27,6 +28,7 @@ Metalsmith(__dirname)
       sortBy: 'title'
     }
   }))
+  .use(tags())
   .use(inPlace({
     // pattern: '*.njk',
     engineOptions: {

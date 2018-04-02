@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="{{ description }}">
+    <meta name="keywords" content="{% for tag in tags %}{{ tag.name }},{% endfor %}">
+
     <title>{{ title }} – {{ site.title }}</title>
     <link rel="stylesheet" href="/css/app.css" crossorigin="anonymous">
 </head>
