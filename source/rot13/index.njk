@@ -1,0 +1,40 @@
+---
+title: ROT13
+permalink: rot13
+---
+{% extends "layouts/page.html" %}
+{% block content -%}
+    <form id="settings">
+        <textarea id="plaintext" class="form-control" type="text" rows="{{ input.rows }}">{{ input.placeholder }}</textarea>
+        {# <select name="shift">
+        {%- for i in range(1, 26) %}
+            <option value="{{ i }}" {% if i == 13 %}selected{% endif %}>ROT{{ i }}</option>
+        {%- endfor %}
+        </select> #}
+        <button name="action" id="encrypt" onclick="encryptBtn();" class="btn btn-primary" type='button'>Encrypt</button>
+        <textarea id="ciphertext" class="form-control" type="text" rows="3" readonly></textarea>
+    </form>
+
+<section id='references'>
+    <h4>References</h4>
+    <ul>
+        <li>
+        <a href="http://www.practicalcryptography.com/ciphers/rot13-cipher/">
+http://www.practicalcryptography.com/ciphers/rot13-cipher/
+        </a>
+        </li>
+    </ul>
+</section>
+
+{%- endblock %}
+{% block scripts -%}
+<script type="text/javascript" src="rot13.js"></script>
+<script type="text/javascript"> 
+    function encryptBtn() {
+        plaintext = document.getElementById("plaintext").value
+        document.getElementById("ciphertext").value = rot13(plaintext)
+    }
+</script>
+{%- endblock %}
+
+

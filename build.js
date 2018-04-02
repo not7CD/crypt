@@ -1,13 +1,18 @@
-var Metalsmith = require('metalsmith')
-var inPlace = require('metalsmith-in-place')
-var collections = require('metalsmith-collections')
+const Metalsmith = require('metalsmith')
+const inPlace = require('metalsmith-in-place')
+const collections = require('metalsmith-collections')
+const permalinks = require('metalsmith-permalinks')
+const debug = require('metalsmith-debug')
 
 Metalsmith(__dirname)
   .metadata({
-    title: 'My Static Site & Blog',
+    site: {
+      title: 'Cryptographic Crypt'
+    },
     description: "It's about saying »Hello« to the World.",
     generator: 'Metalsmith',
-    url: 'http://www.metalsmith.io/'
+    input: {placeholder: 'ATTACK AT DAWN', rows: 3}
+    // url: 'http://www.metalsmith.io/'
   })
   .source('./source')
   .destination('./public')
@@ -24,6 +29,10 @@ Metalsmith(__dirname)
       root: __dirname
     }
   }))
+  .use(permalinks({
+    pattern: ':permalink'
+  }))
+  .use(debug())
   .build(function (err, files) {
     if (err) { throw err }
   })

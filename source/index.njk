@@ -3,7 +3,9 @@ title: Home
 ---
 {% extends "layouts/base.html" %}
 {% block content -%}
+<ul>
 {% for elt in pages %}
-    <a href="/{{ elt.path }}">{{ elt.title }}</a>
+    <li><a href="/{{ elt.permalink }}">{{ elt.title }}</a></li>
 {% endfor %}
+</ul>
 {%- endblock %}

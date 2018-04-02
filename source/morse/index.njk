@@ -1,0 +1,24 @@
+---
+title: Morse code
+collection: pages
+permalink: morse
+---
+{% extends "layouts/page.html" %}
+{% block content -%}
+    <form id="settings">
+        <textarea id="input" class="form-control" type="text" rows="{{ input.rows }}">{{ input.placeholder }}</textarea>
+            <select id="dots"></select>
+            <select id="dashes"></select>
+            <select id="pauses"></select>
+            <label class="mdl-switch mdl-js-switch" for="mode">
+               <input type="checkbox" onchange="modeCrypt()" id="mode" class="">
+            </label>
+            <button name="action" id="buttonCrypt" onclick="buttonCrypt();" class="btn btn-primary" type='button'>Encrypt</button>
+        <textarea id="output" class="form-control" type="text" rows="3" readonly></textarea>
+    </form>
+{%- endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script type="text/javascript" src="morse.js"></script>
+{% endblock %}
