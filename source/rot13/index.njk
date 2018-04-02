@@ -1,39 +1,47 @@
 ---
 title: ROT13
+aka: Ceasar Cipher
 collection: pages
 permalink: rot13
 ---
 {% extends "layouts/page.html" %}
-{% block content -%}
-    <form id="settings">
-        <textarea id="plaintext" class="form-control" type="text" rows="{{ input.rows }}">{{ input.placeholder }}</textarea>
+{% import "layouts/inputs.html" as inputs %}
+{% block tool %}
+    {{ inputs.textareafield(name="inputtext", label="Input", rows=input.rows, value=input.placeholder) }}
+        <div class="form-group form-inline">
+            <div class="btn-group" role="group" aria-label="Main actions">
+                <button name="action" id="encrypt" class="btn btn-primary" type='button'>Encrypt</button>
+                {# <button name="action" id="decrypt" class="btn btn-outline-primary" type='button'>Decode</button> #}
+            </div>
         {# <select name="shift">
         {%- for i in range(1, 26) %}
             <option value="{{ i }}" {% if i == 13 %}selected{% endif %}>ROT{{ i }}</option>
         {%- endfor %}
         </select> #}
-        <button name="action" id="encrypt" onclick="encryptBtn();" class="btn btn-primary" type='button'>Encrypt</button>
-        <textarea id="ciphertext" class="form-control" type="text" rows="3" readonly></textarea>
-    </form>
+            <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="live">
+                <label class="form-check-label" for="live">
+                  live output
+                </label>
+            </div>
+            <button name="action" id="switch" class="btn btn-outline-secondary" type='button'>&#x21F5;</button>
+        </div>
+    {{ inputs.textareafield(name="outputtext", label="Output", rows=input.rows, value='', other='readonly') }}
+{% endblock %}
 
-<section id='references'>
-    <h4>References</h4>
+{% block references -%}
     <ul>
         <li>
-        <a href="http://www.practicalcryptography.com/ciphers/rot13-cipher/">
-http://www.practicalcryptography.com/ciphers/rot13-cipher/
-        </a>
+        <a href="http://www.practicalcryptography.com/ciphers/rot13-cipher/">ROT13 - Practical Cryptography</a>
         </li>
     </ul>
-</section>
-
 {%- endblock %}
 {% block scripts -%}
 <script type="text/javascript" src="rot13.js"></script>
 <script type="text/javascript"> 
     function encryptBtn() {
-        plaintext = document.getElementById("plaintext").value
-        document.getElementById("ciphertext").value = rot13(plaintext)
+        inputtext = document.getElementById("inputtext").value
+        document.getElementById("outputtext").value = rot13(inputtext)
     }
 
     document.getElementById("encrypt").onclick = encryptBtn

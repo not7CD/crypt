@@ -3,9 +3,13 @@ title: Home
 ---
 {% extends "layouts/base.html" %}
 {% block content -%}
+<p>
+    For all your once-in-a-while cryptographic work
+</p>
+
 <ul>
 {% for elt in pages %}
-    <li><a href="/{{ elt.permalink }}">{{ elt.title }}</a></li>
+    <li><a href="/{{ elt.permalink }}">{{ elt.title }}</a> {% if elt.aka %}{{ elt.aka }}{% endif %}</li>
 {% endfor %}
 </ul>
 {%- endblock %}

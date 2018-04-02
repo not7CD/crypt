@@ -4,3 +4,19 @@
     <h2>{{ title }}</h2>
     {%- endblock %}
 
+    {% block content %}
+        <div class="card">    
+        <form class="card-body" id="settings">
+        {% block tool %}
+        {% endblock %}
+        </form>
+        </div>
+
+        <section id="references">
+        <h3>References</h3>
+        {% block references %}
+        {% endblock %}
+        </section>
+    {% endblock %}
+
+

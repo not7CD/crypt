@@ -1,0 +1,73 @@
+---
+title: Base64
+collection: pages
+permalink: base64
+---
+{% extends "layouts/page.html" %}
+{% import "layouts/inputs.html" as inputs %}
+{% block tool %}
+    {{ inputs.textareafield(name="inputtext", label="Input", rows=input.rows, value=input.placeholder) }}
+        <div class="form-group form-inline">
+            <div class="btn-group" role="group" aria-label="Main actions">
+                <button name="action" id="encrypt" class="btn btn-primary" type='button'>Encode</button>
+                <button name="action" id="decrypt" class="btn btn-outline-primary" type='button'>Decode</button>
+            </div>
+            <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="live">
+                <label class="form-check-label" for="live">
+                  live output
+                </label>
+            </div>
+            <button name="action" id="switch" class="btn btn-outline-secondary" type='button'>&#x21F5;</button>
+        </div>
+    {{ inputs.textareafield(name="outputtext", label="Output", rows=input.rows, value='', other='readonly') }}
+{% endblock %}
+
+{% block references %}
+    <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding">MDN web docs - Base64 encoding and decoding</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Base64">Wikipedia - Base64</a></li>
+        <li><a href="https://stackoverflow.com/questions/8571501/how-to-check-whether-the-string-is-base64-encoded-or-not#8571649">How to check whether the string is base64 encoded or not</a></li>
+    </ul>
+{% endblock %}
+
+{% block scripts -%}
+<script defer type="text/javascript">     
+    function isBase64(str) {
+        return str.match(/^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/g) != null
+    }
+
+    document.getElementById("encrypt").onclick = function () {
+        const inputtext = document.getElementById("inputtext").value
+        document.getElementById("outputtext").value = btoa(inputtext)
+    }
+
+    document.getElementById("decrypt").onclick = function () {
+        const inputtext = document.getElementById("inputtext").value
+        document.getElementById("outputtext").value = atob(inputtext)
+    }
+
+    document.getElementById("switch").onclick = function () {
+        const tmp = document.getElementById("inputtext").value
+        document.getElementById("inputtext").value = document.getElementById("outputtext").value
+        document.getElementById("outputtext").value = tmp    
+    }
+
+    document.getElementById("live").onchange = function () {
+        if (this.checked) {
+            document.getElementById("inputtext").oninput = document.getElementById("encrypt").onclick
+        } else {
+            document.getElementById("inputtext").oninput = null
+        } 
+    }
+    document.getElementById("live").onchange()
+
+    document.getElementById("inputtext")
+        .addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if ((event.keyCode === 13) && event.ctrlKey) {
+            document.getElementById("encrypt").click();
+        }
+    })
+</script>
+{%- endblock %}
