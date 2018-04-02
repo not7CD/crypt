@@ -330,7 +330,7 @@ function encode_text (the_form) {
     inputtext = the_form.inputtext.placeholder
   }
   // console.log(inputtext)
-  var radius = 100 + inputtext.length * 5
+  var radius = 80 + Math.log(inputtext.length) * 2 * ring_params.ring_width
   var viewBox = [-radius, -radius, radius * 2, radius * 2]
   if (ring_params.unrolled) {
     viewBox = [0, 0, radius * 5, radius]
