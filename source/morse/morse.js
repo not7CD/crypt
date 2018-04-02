@@ -37,7 +37,6 @@
        } else {
          letter = ms[i]
        };
-       console.log(letter)
        decoded = letter + decoded
      };
 

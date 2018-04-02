@@ -33,11 +33,14 @@ permalink: morse
 <script defer type="text/javascript" src="morse.js"></script>
 <script defer type="text/javascript">
     document.getElementById("encrypt").onclick = function () {
-        const inputtext = document.getElementById("inputtext").value
+        let inputtext = document.getElementById("inputtext").value
+        if (inputtext == '') {
+            inputtext = document.getElementById("inputtext").placeholder
+        }
         document.getElementById("outputtext").value = encryptMorse(inputtext)
     }
-    //wtf
-    document.getElementById("outputtext").placeholder = encryptMorse("{{ input.placeholder }}")
+
+    
 
     document.getElementById("decrypt").onclick = function () {
         const inputtext = document.getElementById("inputtext").value
@@ -66,5 +69,8 @@ permalink: morse
             document.getElementById("encrypt").click();
         }
     })
+    window.onload = function() {
+        document.getElementById("outputtext").placeholder = encryptMorse(document.getElementById("inputtext").placeholder)
+    }
 </script>
 {% endblock %}
