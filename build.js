@@ -39,6 +39,7 @@ Metalsmith(__dirname)
     }
   }))
   .use(permalinks({
+    relative: false,
     pattern: ':permalink'
   }))
   .build(function (err, files) {
