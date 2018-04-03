@@ -24,4 +24,16 @@ label {
     font-style: italic;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-footer {
+    font-family: $font-family-monospace;
+    margin-top: auto;
+} 
+
+
 @import "node_modules/bootstrap/scss/bootstrap.scss";

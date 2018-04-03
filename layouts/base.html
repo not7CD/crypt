@@ -18,12 +18,10 @@
         </noscript>
         {% block content -%}
         {%- endblock %}
-        {% block footer -%}
-            <div>
-                <p><a href="{{ package.repository.url | replace('.git', '') | replace('git+', '') | safe }}">Contribute</a> <a href="/about">About</a> <a href="#">{{ package.version }}</a></p>
-            </div>
-        {%- endblock %}
     </div>
+        {% block footer -%}
+        {% include "layouts/footer.html" %}
+        {%- endblock %}
     
     {% block scripts -%}
     {%- endblock %}
