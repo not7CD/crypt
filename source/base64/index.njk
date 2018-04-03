@@ -4,27 +4,33 @@ collection: pages
 permalink: base64
 ---
 {% extends "layouts/tool.html" %}
-{% import "layouts/inputs.html" as inputs %}
 {% block tool %}
-{{ inputs.textareafield(name="inputtext", label="Input", rows=input.rows, value=input.placeholder) }}
-<div class="form-group form-row align-items-center">
-    <div class="btn-group col-auto" role="group" aria-label="Main actions">
-        <button name="action" id="encrypt" class="btn btn-primary" type='button'>Encode</button>
-        <button name="action" id="decrypt" class="btn btn-outline-primary" type='button'>Decode</button>
-    </div>
-    <div class="col">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="live">
-            <label class="form-check-label" for="live">
-              live output
-          </label>
-        </div>
-    </div>
-    <div class="col-auto">
-        <button name="action" id="switch" class="btn btn-outline-secondary" type='button'>&#x21F5;</button>
-    </div>
+<div class="form-group">
+    <label for="inputtext">Input</label>
+    <textarea v-model=inputtext class="form-control" id="inputtext" name="inputtext" rows="2" type="text" placeholder="{{ input.placeholder }}" v-bind:pattern="[mode == 'decode' ? 're' : '']"
+    ></textarea>
 </div>
-{{ inputs.textareafield(name="outputtext", label="Output", rows=input.rows, value='', other='readonly') }}
+<div class="form-group form-row align-items-center">
+    <div class="btn-group btn-group-toggle col-auto" data-toggle="buttons">
+      <label class="btn btn-outline-primary" v-bind:class="[mode == 'encode' ? 'active' : '']">
+        <input v-model="mode" value="encode" type="radio" name="mode" id="encode" autocomplete="off" checked> Encode
+    </label>
+    <label class="btn btn-outline-primary" v-bind:class="[mode != 'encode' ? 'active' : '']">
+        <input v-model="mode" value="decode" type="radio" name="mode" id="decode" autocomplete="off"> Decode
+    </label>
+</div>
+<div class="col">
+
+</div>
+<div class="col-auto">
+    <button v-on:click="switchSides" name="switchBtn" id="switchBtn" class="btn btn-outline-secondary" type='button'>&#x21F5;</button>
+</div>
+</div>
+<div class="form-group">
+    <label for="outputtext">Input</label>
+    <textarea v-model=outputtext class="form-control" id="outputtext" name="outputtext" rows="2" type="text" placeholder="" 
+    readonly></textarea>
+</div>
 {% endblock %}
 
 {% block references %}
@@ -36,43 +42,6 @@ permalink: base64
 {% endblock %}
 
 {% block scripts -%}
-<script defer type="text/javascript">     
-    function isBase64(str) {
-        return str.match(/^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/g) != null
-    }
-
-    document.getElementById("encrypt").onclick = function () {
-        const inputtext = document.getElementById("inputtext").value
-        document.getElementById("outputtext").value = btoa(inputtext)
-    }
-    document.getElementById("outputtext").placeholder = btoa("{{ input.placeholder }}")
-
-    document.getElementById("decrypt").onclick = function () {
-        const inputtext = document.getElementById("inputtext").value
-        document.getElementById("outputtext").value = atob(inputtext)
-    }
-
-    document.getElementById("switch").onclick = function () {
-        const tmp = document.getElementById("inputtext").value
-        document.getElementById("inputtext").value = document.getElementById("outputtext").value
-        document.getElementById("outputtext").value = tmp    
-    }
-
-    document.getElementById("live").onchange = function () {
-        if (this.checked) {
-            document.getElementById("inputtext").oninput = document.getElementById("encrypt").onclick
-        } else {
-            document.getElementById("inputtext").oninput = null
-        } 
-    }
-    document.getElementById("live").onchange()
-
-    document.getElementById("inputtext")
-    .addEventListener("keyup", function(event) {
-        event.preventDefault();
-        if ((event.keyCode === 13) && event.ctrlKey) {
-            document.getElementById("encrypt").click();
-        }
-    })
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script defer src="base64.js"></script>
 {%- endblock %}
