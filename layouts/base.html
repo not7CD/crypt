@@ -23,7 +23,7 @@
                 <p>
                     Last edit: {{ stats.mtime.getUTCFullYear() }}-{{ stats.mtime.getUTCMonth() }}-{{ stats.mtime.getUTCDate() }}
                 </p>
-                <p><a href="{{ package.repository.url | replace('.git', '') }}">Contribute</a></p>
+                <p><a href="{{ package.repository.url | replace('.git', '') | replace('git+', '') | safe }}">Contribute</a></p>
             </div>
         {%- endblock %}
     </div>
