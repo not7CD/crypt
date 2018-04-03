@@ -23,6 +23,9 @@ Metalsmith(__dirname)
   .use(metadataDir({
     directory: './package.json'
   }))
+  .use(metadataDir({
+    directory: './source/manifest.json'
+  }))
   .use(sass({
     outputDir: 'css/'
   }))

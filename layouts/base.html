@@ -20,10 +20,7 @@
         {%- endblock %}
         {% block footer -%}
             <div>
-                <p>
-                    Last edit: {{ stats.mtime.getUTCFullYear() }}-{{ stats.mtime.getUTCMonth() }}-{{ stats.mtime.getUTCDate() }}
-                </p>
-                <p><a href="{{ package.repository.url | replace('.git', '') | replace('git+', '') | safe }}">Contribute</a></p>
+                <p><a href="{{ package.repository.url | replace('.git', '') | replace('git+', '') | safe }}">Contribute</a> <a href="/about">About</a> <a href="#">{{ package.version }}</a></p>
             </div>
         {%- endblock %}
     </div>
