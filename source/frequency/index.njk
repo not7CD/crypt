@@ -1,0 +1,163 @@
+---
+title: Frequency Analysis
+aka: Ceasar Cipher
+collection: pages
+tags: cryptanalysis
+permalink: frequency
+---
+{% extends "layouts/tool.html" %}
+{% import "layouts/inputs.html" as inputs %}
+{% block tool %}
+{{ inputs.textareafield(name="inputtext", label="Input", rows=input.rows, value=input.placeholder) }}
+<div class="form-group form-inline">
+    <div class="btn-group" role="group" aria-label="Main actions">
+        <button name="action" id="plot" class="btn btn-primary" type='button'>Plot</button>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="live">
+        <label class="form-check-label" for="live">
+          live output
+      </label>
+  </div>
+</div>
+<style type="text/css">
+.bar {
+  fill: var(--secondary);
+}
+
+.bar:hover {
+  fill: var(--primary);
+}
+
+.axis--x path {
+  display: none;
+}
+</style>
+<div id="output" class="form-control">
+    <svg id="outputsvg"></svg>
+</div>
+{% endblock %}
+
+{% block references -%}
+<ul>
+
+</ul>
+{%- endblock %}
+{% block scripts -%}
+{# <script defer type="text/javascript" src="rot13.js"></script> #}
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<script defer type="text/javascript"> 
+
+
+    var alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+
+    function getFrequency(string) {
+        var freq = {};
+        for (var i=0; i<string.length;i++) {
+            var character = string.charAt(i);
+            if (freq[character]) {
+             freq[character]++;
+         } else {
+             freq[character] = 1;
+         }
+     }
+
+     return freq;
+ };
+
+
+
+ function plotBtn() {
+    var inputtext = document.getElementById("inputtext").value
+    if (inputtext == '') {
+        inputtext = document.getElementById("inputtext").placeholder
+    }
+        // console.log(inputtext)
+        var filtered = inputtext.toLowerCase().replace(/\W/g,'')
+        // console.log(filtered)
+        var frequecies = getFrequency(filtered)
+        console.log(JSON.stringify(frequecies))
+
+
+
+        var data = alphabet.map(function(l) {
+            return {letter:l, frequency:(frequecies[l] !== 'undefined')? frequecies[l]/filtered.length : 0}
+        })
+        console.log(data)
+
+        var svg = d3.select("svg"),
+         margin = {top: 30, right: 30, bottom: 30, left: 30},
+         trueWidth = parseInt(document.getElementById("output").offsetWidth),
+         trueHeight = trueWidth / 2,
+         width = trueWidth - margin.left - margin.right,
+         height = trueHeight - margin.top - margin.bottom;
+
+        console.log(width, height, trueWidth, trueHeight)
+
+        svg.selectAll("*").remove()
+        svg.attr("width", '100%')
+        .attr("height", '100%')
+        .attr('viewBox','0 0 '+trueWidth+' '+trueHeight)
+        .attr('preserveAspectRatio','xMinYMin')
+
+
+        var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+        y = d3.scaleLinear().rangeRound([height, 0]);
+
+        var g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        x.domain(data.map(function(d) { return d.letter; }));
+        y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+
+        g.append("g")
+        .attr("class", "axis axis--x")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+        g.append("g")
+        .attr("class", "axis axis--y")
+        .call(d3.axisLeft(y).ticks(10, "%"))
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.71em")
+        .attr("text-anchor", "end")
+        .text("Frequency");
+
+        g.selectAll(".bar")
+        .data(data)
+        .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.letter); })
+        .attr("y", function(d) { return y(d.frequency); })
+        .attr("width", x.bandwidth())
+        .attr("height", function(d) { return height - y(d.frequency); });
+    }
+
+    document.getElementById("plot").onclick = plotBtn
+    document.getElementById("plot").click()
+    document.getElementById("plot").click()
+
+    document.getElementById("live").onchange = function () {
+        if (this.checked) {
+            document.getElementById("inputtext").oninput = document.getElementById("plot").onclick
+        } else {
+            document.getElementById("inputtext").oninput = null
+        } 
+    }
+    document.getElementById("live").onchange()
+
+    document.getElementById("inputtext")
+    .addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if ((event.keyCode === 13) && event.ctrlKey) {
+            document.getElementById("plot").click();
+        }
+    })
+
+</script>
+{%- endblock %}
+
+

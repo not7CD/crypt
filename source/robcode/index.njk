@@ -4,7 +4,7 @@ collection: pages
 tags: barcode,generator,svg output, art, encoder
 permalink: robcode 
 --- 
-{% extends "layouts/page.html" %} 
+{% extends "layouts/tool.html" %} 
 {% import "layouts/inputs.html" as inputs %}
 {% block tool %}
 {{ inputs.textareafield(name="inputtext", label="Input", rows=input.rows, value=input.placeholder) }}

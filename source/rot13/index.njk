@@ -5,7 +5,7 @@ collection: pages
 tags: cipher
 permalink: rot13
 ---
-{% extends "layouts/page.html" %}
+{% extends "layouts/tool.html" %}
 {% import "layouts/inputs.html" as inputs %}
 {% block tool %}
     {{ inputs.textareafield(name="inputtext", label="Input", rows=input.rows, value=input.placeholder) }}
