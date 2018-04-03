@@ -8,18 +8,22 @@ permalink: morse
 {% import "layouts/inputs.html" as inputs %}
 {% block tool %}
 {{ inputs.textareafield(name="inputtext", label="Input", rows=input.rows, value=input.placeholder) }}
-<div class="form-group form-inline">
-    <div class="btn-group" role="group" aria-label="Main actions">
+<div class="form-group form-row align-items-center">
+    <div class="btn-group col-auto" role="group" aria-label="Main actions">
         <button name="action" id="encrypt" class="btn btn-primary" type='button'>Encode</button>
         <button name="action" id="decrypt" class="btn btn-outline-primary" type='button'>Decode</button>
     </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="live">
-        <label class="form-check-label" for="live">
-          live output
-      </label>
-  </div>
-  <button name="action" id="switch" class="btn btn-outline-secondary" type='button'>&#x21F5;</button>
+    <div class="col">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="live">
+            <label class="form-check-label" for="live">
+              live output
+          </label>
+        </div>
+    </div>
+    <div class="col-auto">
+        <button name="action" id="switch" class="btn btn-outline-secondary" type='button'>&#x21F5;</button>
+    </div>
 </div>
 {{ inputs.textareafield(name="outputtext", label="Output", rows=input.rows, value='', other='readonly') }}
 {% endblock %}

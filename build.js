@@ -5,32 +5,34 @@ const permalinks = require('metalsmith-permalinks')
 const debug = require('metalsmith-debug')
 const sass = require('metalsmith-sass')
 const tags = require('metalsmith-tags')
+const metadataDir = require('metalsmith-metadata-directory')
 
 Metalsmith(__dirname)
   .metadata({
     site: {
-      title: 'Cryptographic Crypt'
-    },
-    description: 'For all your once-in-a-while cryptographic work.',
+      title: 'Cryptographic Crypt',
+      description: 'For all your once-in-a-while cryptographic work.'},
     generator: 'Metalsmith',
-    input: {placeholder: 'ATTACK AT DAWN', rows: 2}
-    // url: 'http://www.metalsmith.io/'
+    input: {placeholder: 'ATTACK AT DAWN', rows: 2},
+    url: 'https://crypt.not7cd.net/'
   })
   .source('./source')
   .destination('./public')
   .clean(true)
+  .use(debug())
+  .use(metadataDir({
+    directory: './package.json'
+  }))
   .use(sass({
     outputDir: 'css/'
   }))
   .use(collections({
     pages: {
-      // pattern: '*/*.njk'
       sortBy: 'title'
     }
   }))
   .use(tags())
   .use(inPlace({
-    // pattern: '*.njk',
     engineOptions: {
       path: __dirname + '/source',
       root: __dirname
@@ -39,7 +41,6 @@ Metalsmith(__dirname)
   .use(permalinks({
     pattern: ':permalink'
   }))
-  .use(debug())
   .build(function (err, files) {
     if (err) { throw err }
   })

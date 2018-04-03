@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="{{ description }}">
-    <meta name="keywords" content="{% for tag in tags %}{{ tag.name }},{% endfor %}">
-
-    <title>{{ title }} – {{ site.title }}</title>
-    <link rel="stylesheet" href="/css/app.css" crossorigin="anonymous">
+    {% include "layouts/head.html" %}
 </head>
 <body>
     <div class="container">
         {% block header -%}
-            <h1>Cryptographic Crypt</h1>
+            <h1>{{ site.title }}</h1>
         {%- endblock %}
         <div class="alert alert-info" role="alert">
-            First Iteration, bugs everywhere, <a href="https://github.com/not7cd/crypt">submit issue.</a>
+            First Iteration, bugs everywhere, <a href="{{ package.bugs.url }}">submit issue.</a>
             </div>
         <noscript>
             <div class="alert alert-warning" role="alert">
-            You need to enable JavaScript to use this site.
+            You need to enable JavaScript to use tools on this site.
             </div>
         </noscript>
         {% block content -%}
@@ -28,7 +23,7 @@
                 <p>
                     Last edit: {{ stats.mtime.getUTCFullYear() }}-{{ stats.mtime.getUTCMonth() }}-{{ stats.mtime.getUTCDate() }}
                 </p>
-                <p><a href="https://github.com/not7cd/crypt">Contribute</a></p>
+                <p><a href="{{ package.repository.url | replace('.git', '') }}">Contribute</a></p>
             </div>
         {%- endblock %}
     </div>
