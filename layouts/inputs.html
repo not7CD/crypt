@@ -1,7 +1,0 @@
-{% macro textareafield(name, label, rows='', value='', other='') -%}
-<div class="form-group">
-    <label for="{{ name }}">{{ label }}</label>
-    <textarea class="form-control" id="{{ name }}" name="{{ name }}" rows="{{ rows }}" type="text" placeholder="{{ value | escape }}" 
-    {{- other }}></textarea>
-</div>
-{%- endmacro %}

@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+
+/*$font-family-base:            serif;*/
+:root {
+  --font-family-monospace:     'Inconsolata', monospace;
+  --headings-font-family:      var(--font-family-monospace);
+  --primary: #6610f2;
+
+};
+
+
+
+.form-control {
+    font-family: var(--font-family-monospace);
+}
+
+.return::before {
+    content: '\261A\2002';
+}
+
+.btn {
+    font-family: var(--font-family-monospace);
+    font-style: normal !important;
+}
+
+label {
+    font-family: var(--font-family-monospace);
+    font-style: italic;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-footer {
+    font-family: var(--font-family-monospace);
+    margin-top: auto;
+} 
+
+
+/*@import "node_modules/bootstrap/scss/bootstrap.scss";*/
